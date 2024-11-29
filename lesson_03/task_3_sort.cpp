@@ -1,24 +1,25 @@
 #include <iostream>
 
 int main(){
+    int const N = 8;
+    int arr[N] = {3, 7, 1, 9, 4, 5, 2, 8};
 
-    int const N = 7;
-    int arr[N] = {3, 7, 1, 9, 4, 2, 8};
-    int high = 0;
-    int low = 0;
-    int median = 0;
-
-    for (int j = 0; j < N; ++j){
-        for (int i = 0; i < N - 1; ++i){
-            if(arr[i] > arr[i + 1]){
-                high = arr[i];
-                low = arr[i + 1];
-                arr[i] = low;
-                arr[i + 1] = high;
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N - i - 1; ++j) {
+            if(arr[i] > arr[i + 1]) {
+				int tmp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = tmp;
             }
         }
     }
 
-    median = arr[N/2];
+    double median = N % 2 ? arr[N / 2] : (arr[N / 2 - 1] + arr[N / 2]) / 2.0; // тернарный оператор if else (?:)
+    /*if(N % 2 != 0) {
+		median = arr[N / 2];
+	}
+	else {
+		median = (arr[N / 2 - 1] + arr[N / 2]) / 2.0;
+	}*/
     std::cout << median;
 }

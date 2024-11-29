@@ -1,85 +1,59 @@
 #include <iostream>
 #include <cmath>
 
-
 double brute_force (double, double, int);
 double bisection (double, double, int);
 double integral (double, double, int);
-double func_value(double arg);
+double f(double arg);
 
 int main(){
-	std::cout << brute_force(1, 2, 3) << std::endl;
-	std::cout << bisection(1, 2, 3) << std::endl;
-	std::cout << integral(0.0, 2*3.14, 0.0001) << std::endl;
+	std::cout << brute_force(1, 2, 100) << std::endl;
+	std::cout << bisection(1, 2, 100) << std::endl;
+	std::cout << integral(0.0, 2*3.14, 100) << std::endl;
 }
 
-double func_value(double arg) {
-	return std::abs(arg * arg - 2);
+double f(double x) {
+	return x * x - 2;
 }
 
-double brute_force(double a_0, double b_0, int N){
-    double a = a_0;
-	double b = b_0;
-	double f_current;					
-	double f_minimum;
-	double x = 0;
-    double x_ideal = 1.4142135623730950488;
-	double pogrehnost;
+double brute_force(double a, double b, int N) {			
 	double step = std::abs(a - b) / N;
-	
-		f_minimum = func_value(a);
-	
-			
-		for(int i = 0; i < N; ++i)
-		{
-			f_current = func_value(a + i * step);
-			
-			if (std::abs(f_current) < std::abs(f_minimum))
-			{
-				f_minimum = f_current;
-				x = a + i * step;	
-									
-			}
-	 
+	double f_minimum = std::abs(f(a));
+	double solution = a;	
+	for(int i = 0; i < N; ++i) {
+		double f_current = std::abs(f(a + i * step));
+		
+		if (f_current < f_minimum) {
+			f_minimum = f_current;
+			solution = a + i * step;					
 		}
+	}
 
-        return x;
+	return solution;
 }
 
-double bisection (double a_0, double b_0, int N){
-    double a = a_0;
-	double b = b_0;	
-	double x = 0;
-    double x_ideal = 1.4142135623730950488;
-	
-	
-	for(int N_1 = N; N_1 <= 100; ++N_1) 
+double bisection(double a, double b, int N) {
+	for(int i = 0; i <= N; ++i) 
 	{
-		x =(a+b)/2;
-
-		if(func_value(x) * func_value(b) > 0)	{
-			b = x;
+		double c = (a + b) / 2;
+		
+		if(f(a) * f(c) < 0)	{
+			b = c;
 		} 
 		else {
-			a = x;
+			a = c;
 		}
 	}	
 
-    return x;
+    return (a + b) / 2;
 }
 
-double integral (double a_0, double b_0, int N){
-    double a = a_0;
-    double b = b_0;
+double integral(double a, double b, int N) {
     double delta_x = (b - a) / N;
     double integral = 0;
-    double delta_y = 0;
-    double squar = 0;
-
-    for(double i = a; i < b; i = i + delta_x){
-        delta_y = func_value(i);
-        squar = delta_x*delta_y;
-        integral = integral + squar;
+    
+    for(double x = a; x < b; x += delta_x) {
+        integral += delta_x * f(x);
     }
 
     return integral;

@@ -2,53 +2,36 @@
 
 int main(){
     int const N = 6;
-    int arr[N] = {3, 7, 1, 2, 4, 9};
-    int min = arr[0];
-    int max = -1;
-    int index_max = 0;
-    int index_min = 0;
-    int high_index = 0;
-    int low_index = 0;
-    int counter = 0;
-    int sum = 0;
-    int average = 0;
+    int arr[N] = {3, 7, 1, 2, 5, 9};
+ 
+    int i_max = 0;
+    int i_min = 0;
 
-    for (int i = 0; i < N; ++i){
-        if (min > arr[i]){
-            min = arr[i];
-            index_min = i;
+    for (int i = 0; i < N; ++i) {
+        if(arr[i] < arr[i_min]) {
+            i_min = i;
         }
-          if (max < arr[i]){
-            max = arr[i];
-            index_max = i;
-
+          if(arr[i] > arr[i_max]) {
+            i_max = i;
         }
     } 
 
-    if (index_min < index_max){
-        high_index = index_max;
-        low_index = index_min;
-    }
-    else{
-        high_index = index_min;
-        low_index = index_max;
+    if (i_min > i_max) {
+		int tmp = i_min;
+		i_min = i_max;
+		i_max = tmp;
     }
 
-    for (int i = low_index + 1; i <= high_index - 1; ++i){
+    int cnt = 0, sum = 0;
+    for (int i = i_min + 1; i < i_max; ++i) {
         sum += arr[i];
-        counter += 1;
+        ++cnt;
     }
 
-    if (low_index + 1 == high_index - 1){
-        average = arr[low_index + 1];
-    }
-
-    if(counter == 0){
-        std::cout << average;
+    if(cnt == 0) {
+        std::cout << 0;
     }
     else{
-        average = sum / counter;
-        std::cout << average;
+        std::cout << (sum * 1.0) / cnt; // умножение на 1.0 необходимо, чтобы получился дробный результат
     }
-    
 }
