@@ -9,6 +9,12 @@ int main() {
     double N = 50;
 
     TranjectoryModel(a_0, v_0, 35, N);
+    double* x_exp;
+    double* y_exp;	
+    int N = ReadData(x_exp, y_exp);
+    //Params sol = Solution(...);
+    delete[] x_exp;
+    delete[] y_exp;
 }
 
 void TranjectoryModel(double a_0, double v_0, double x_end, int N) {
@@ -22,4 +28,18 @@ void TranjectoryModel(double a_0, double v_0, double x_end, int N) {
 				/ (2 * (v_0 * v_0) * (cos(a_0) * cos(a_0)));
         std::cout << x << "\t" << y << std::endl;
     }
+}
+
+int ReadData(double* exp_x, double* exp_y){
+    int N;
+    std::cin >> N;
+
+    exp_x = new double[N];
+    exp_y = new double[N];
+
+    for(int i = 0; i < N; ++i){
+        std::cin >> exp_x[i] >> exp_y[i];
+    }
+
+    return N;
 }
