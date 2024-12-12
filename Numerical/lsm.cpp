@@ -18,8 +18,7 @@ int main() {
 }
 
 void TranjectoryModel(double a_0, double v_0, double x_end, int N) {
-    std::cout << N << std::endl;
-    double 	x = 0, 
+       double 	x = 0, 
 			y = 0,
 			step = x_end / N;
 			
