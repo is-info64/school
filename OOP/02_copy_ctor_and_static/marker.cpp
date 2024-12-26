@@ -1,20 +1,18 @@
 #include <iostream>
+int N_MARKER = 0;
 
 class Marker {
-	
-	static int N_MARKER = 0;
-
 public:
 	enum Color {
-		RED, GREEN, BLUE, PINK, BLACK
+		RED = 31, GREEN = 32, BLACK = 30, PINK = 35
 	};
-	const int MAX_BUFF = 100;
+	const static int MAX_BUFF = 100;
 	Color color;
 	char* buff;
 	int num_chars;
 	int capacity;
-	
 	int N;
+	
 	Marker() {
 		color = Color::BLACK;
 		num_chars = 0;
@@ -34,7 +32,7 @@ public:
 		std::cout << "copy ctor: " << N << std::endl;
 	}
 	
-	/*Marker& operator=(const Marker& rhs) {
+	Marker& operator=(const Marker& rhs) {
 		this->color = rhs.color;
 		this->capacity = rhs.capacity;
 		//delete[] this->buff; // ! otherwise memory leack occur 
@@ -44,9 +42,11 @@ public:
 		N = ++N_MARKER;
 		std::cout << "copy assign: " << N << std::endl;
 		return *this;
-	}*/
+	}
+	
 	//Marker(const Marker& m) = delete;
-	Marker& operator=(const Marker& rhs)  = delete;
+	//Marker& operator=(const Marker& rhs)  = delete;
+	
 	~Marker() {
 		std::cout << "dctor: " << N << std::endl;
 		delete[] buff;
@@ -62,12 +62,12 @@ public:
 	}
 		
 	void See() {
+		std::cout << "\033[1;" << color << "m";
 		for(int i = 0; i < num_chars; ++i) {
 			std::cout << buff[i];
 		}
-		std::cout << std::endl;
+		std::cout << "\033[0m\n" << std::endl;
 	}
-	
 	void Erase() {
 		num_chars = 0;
 	}
