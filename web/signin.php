@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	$key = "HB)&(*#G$%DSB*#&%";
 	ini_set("display_errors", 1); // .htaccess php.ini httpd.conf
 	error_reporting(E_ALL);
@@ -18,29 +19,32 @@
 	$login = $_POST['login'];
 	$password = $_POST['password'];	
 	$md5_password = md5($key.$password.$key); // !!! HASH
-	$nick = $_POST['nick'];	
-	$gender = $_POST['gender'];	
 	
-	echo $login." $password $nick $gender<br />"; 
 	
 	/*$res = mysqli_query($conn, "SELECT id FROM _users WHERE login = '$login'");
 	
 	if(mysqli_num_rows($res) > 0) {
 		die("user already exists");
 	}*/
-	$res = mysqli_query($conn, "SELECT COUNT(*) AS user_exist FROM _users WHERE login = '$login'");
 	
-	if(mysqli_fetch_assoc($res)['user_exist'] > 0) {
-		die("user already exists");
+	/*$res = mysqli_query($conn, "SELECT COUNT(*) AS user_exist FROM _users 
+					WHERE login = '$login' AND password = '$md5_password'");
+
+	if(mysqli_fetch_assoc($res)['user_exist'] == 0) {
+		die("invalid login");
+	}*/
+	
+	
+	$res = mysqli_query($conn, "SELECT id AS id FROM _users 
+					WHERE login = '$login' AND password = '$md5_password'");
+
+	if(mysqli_num_rows($res) == 0) {
+		die("invalid login");
 	}
-		
-	mysqli_query($conn, "
-		INSERT INTO
-			_users(login, password, nick, gender) 
-			VALUES ('$login', '$md5_password', '$nick', '$gender');");
 	
+	$_SESSION['user_id'] = mysqli_fetch_assoc($res)['id'];
 	 
-	 echo "user signup successfull <br />";
+	 echo "user signin successfull <br />";
 	//mysqli_query($conn, "SET NAMES cp1251");
     //mysqli_close($conn);
 
